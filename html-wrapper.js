@@ -3,8 +3,9 @@
 
 const fs = require("fs");
 
-/*
-*   
+/*  NOTE:
+*   the 'htmlFileDir' should be inside
+*   the level directory of this module
 */
 
 // RETURN STRING
