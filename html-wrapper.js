@@ -3,56 +3,100 @@
 
 const fs = require("fs");
 
-function unite(htmlFileDir) {
-    let text;
+/*
+*   
+*/
 
+// RETURN STRING
+function uniteString(htmlFileDir) {
+    let mainHTML;
+    let folderDir;
+
+    // cut 'htmlFileDir' for the folder directory name
+    for (let i = htmlFileDir.length - 1; i >= 0; i--) {
+        if (htmlFileDir.charAt(i) == '/' || htmlFileDir.charAt(i) == '\\') {
+            fileDir = fileDir.split('').reverse().join('');
+            folderDir = htmlFileDir.slice(0, htmlFileDir.search(folderDir));
+            break;
+        }
+        else {
+            folderDir += htmlFileDir.charAt(i);
+        }
+    }
+
+    // read the main html (eg. 'index.html')
     fs.readFile(htmlFileDir, "utf-8", (err, dataStr) => {
         if (err) console.log(err);
         else {
-            text = dataStr;
+            mainHTML = dataStr;
         }
     });
 
-    // searhing and inserting
-    for (let i = 0; i < text.length; i++) {
+    // searhing and inserting (the 'i' is not really in use just formality)
+    for (let i = 0; i < mainHTML.length; i++) {
 
-        // CSS file //
+        // expected return 'true' to perform 'continue' statement
+        const insertFunc = (searchPattern) => {
 
-        let searchPattern = '<link rel="stylesheet" href="';
-        let foundDex = text.search(searchPattern);
-        let includedFileDir;
+            let foundDex = mainHTML.search(searchPattern);
+            let includedFileDir;
 
-        if (foundDex != -1) {
-            const startCt = foundDex + searchPattern.length;
-            
-            for (let j = startCt; j < text.length; j++) {
+            if (foundDex != -1) {
 
-                if (text.charAt(j) != '"' &&
-                    startCt + includedFileDir.search(".css") + 4 == j
-                ) {
-                    break;
+                const startCt = foundDex + searchPattern.length;
+                let ctrGo; // continue to use
+                
+                for (ctrGo = startCt; ctrGo < mainHTML.length; ctrGo++) {
+
+                    if (mainHTML.charAt(ctrGo) != '"' &&
+                        startCt + includedFileDir.search(".css") + 4 == ctrGo
+                    ) {
+                        break;
+                    }
+
+                    includedFileDir += mainHTML.charAt(ctrGo);
                 }
-                else {
-                    includedFileDir += text.charAt(j);
-                }
+
+                fs.readFile(folderDir + '/' + includedFileDir, 'utf-8', (err, dataStr) => {
+                    if (err) console.log(err);
+                    else {
+                        /* WARNING!!
+                        *  this will just replace found line only not so the error
+                        *  still may happen. Example:
+                        * 
+                        *     <script src="script.js">     --> this line will be deleted
+                        *     </script>                    --> this not deleted (error)
+                        */
+
+                        // 'ctrGo' as first new line index
+                        for (ctrGo; ctrGo < mainHTML.length; ctrGo++) {
+                            if (mainHTML.charAt(ctrGo) == '\n') {
+                                break;
+                            }
+                        }
+
+                        // first char of 'foundDex' and the new line character will be removed
+                        mainHTML = (
+                            mainHTML.slice(0, foundDex) +               // begin to explicit
+                            dataStr +                                   // insert the 'dataStr'
+                            mainHTML.slice(ctrGo + 1, mainHTML.length)  // explicit to end
+                        );
+                    }
+                });
+                return true;
             }
+            return false;
+        };
 
-            
+        // CSS file
+        if (insertFunc('<link rel="stylesheet" href="')) continue;
 
-            continue;
-        }
-
-        // JavaScript file //
-
-        searchPattern = '<script src="';
-        foundDex = text.search(searchPattern);
-
-        if (foundDex != -1) {
-
-            continue;
-        }
+        // JavaScript file
+        if (insertFunc('<script src="')) continue;
 
         // not found or the end
         break;
     }
+
+    return mainHTML;
 }
