@@ -4,43 +4,52 @@
 const fs = require("fs");
 
 /*  NOTE:
-*   the 'htmlFileDir' should be inside
+*   the 'HTML_FILE_DIR' should be inside
 *   the level directory of this module
 */
 
 // RETURN STRING
-function uniteString(htmlFileDir) {
-    let mainHTML;
-    let folderDir;
+function getUnifiedString(HTML_FILE_DIR) {
+    let mainHTML = "";
+    let folderDir = "";
 
-    // cut 'htmlFileDir' for the folder directory name
-    for (let i = htmlFileDir.length - 1; i >= 0; i--) {
-        if (htmlFileDir.charAt(i) == '/' || htmlFileDir.charAt(i) == '\\') {
-            fileDir = fileDir.split('').reverse().join('');
-            folderDir = htmlFileDir.slice(0, htmlFileDir.search(folderDir));
+    // cut 'HTML_FILE_DIR' for the folder directory name
+    for (let i = HTML_FILE_DIR.length - 1; i >= 0; i--) {
+        if (HTML_FILE_DIR.charAt(i) == '/' || HTML_FILE_DIR.charAt(i) == '\\') {
+            folderDir = folderDir.split('').reverse().join('');
+            folderDir = HTML_FILE_DIR.slice(0, HTML_FILE_DIR.search(folderDir));
             break;
         }
         else {
-            folderDir += htmlFileDir.charAt(i);
+            folderDir += HTML_FILE_DIR.charAt(i);
         }
     }
 
-    // read the main html (eg. 'index.html')
-    fs.readFile(htmlFileDir, "utf-8", (err, dataStr) => {
-        if (err) console.log(err);
-        else {
-            mainHTML = dataStr;
-        }
-    });
+    // read the main html
+    try {
+        mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
+    }
+    catch (err) {
+        console.log(err);
+        return "";
+    }
 
     // searhing and inserting (the 'i' is not really in use just formality)
     for (let i = 0; i < mainHTML.length; i++) {
 
-        // expected return 'true' to perform 'continue' statement
-        const insertFunc = (searchPattern) => {
+        /*
+        *   Expected return 'true' to perform 'continue' statement
+        *   eg. `insertFunc('<script src="', "js", "script")`
+        */
+        const insertFunc = (searchPattern, includedFileExtension, markName) => {
 
             let foundDex = mainHTML.search(searchPattern);
-            let includedFileDir;
+            let includedFileDirectory = "";
+
+            // check whether has dot (should has a dot)
+            if (includedFileExtension.charAt(0) != '.') {
+                includedFileExtension = '.' + includedFileExtension;
+            }
 
             if (foundDex != -1) {
 
@@ -49,51 +58,95 @@ function uniteString(htmlFileDir) {
                 
                 for (ctrGo = startCt; ctrGo < mainHTML.length; ctrGo++) {
 
-                    if (mainHTML.charAt(ctrGo) != '"' &&
-                        startCt + includedFileDir.search(".css") + 4 == ctrGo
+                    if (mainHTML.charAt(ctrGo) == '"' &&
+                        startCt + includedFileDirectory.search(includedFileExtension) +
+                        includedFileExtension.length                                    == ctrGo
                     ) {
                         break;
                     }
 
-                    includedFileDir += mainHTML.charAt(ctrGo);
+                    includedFileDirectory += mainHTML.charAt(ctrGo);
                 }
 
-                fs.readFile(folderDir + '/' + includedFileDir, 'utf-8', (err, dataStr) => {
-                    if (err) console.log(err);
-                    else {
-                        /* WARNING!!
-                        *  this will just replace found line only not so the error
-                        *  still may happen. Example:
-                        * 
-                        *     <script src="script.js">     --> this line will be deleted
-                        *     </script>                    --> this not deleted (error)
-                        */
+                try {
+                    let dataStr = fs.readFileSync(folderDir + includedFileDirectory, 'utf-8');
 
-                        // 'ctrGo' as first new line index
-                        for (ctrGo; ctrGo < mainHTML.length; ctrGo++) {
-                            if (mainHTML.charAt(ctrGo) == '\n') {
-                                break;
-                            }
+                    // NOTE! When above get error the below code won't get executed
+
+                    /* WARNING!!
+                    *  this will just replace found line only not so the error
+                    *  still may happen. Example:
+                    * 
+                    *     <script src="script.js">     --> this line will be deleted
+                    *     </script>                    --> this not deleted (error)
+                    */
+
+                    // 'ctrGo' as first new line index
+                    for (ctrGo; ctrGo < mainHTML.length; ctrGo++) {
+                        if (mainHTML.charAt(ctrGo) == '\n') {
+                            break;
                         }
-
-                        // first char of 'foundDex' and the new line character will be removed
-                        mainHTML = (
-                            mainHTML.slice(0, foundDex) +               // begin to explicit
-                            dataStr +                                   // insert the 'dataStr'
-                            mainHTML.slice(ctrGo + 1, mainHTML.length)  // explicit to end
-                        );
                     }
-                });
+
+                    /*
+                    *   using indentation spacing (except of the first insertion line)
+                    *   [see the first 'markName']
+                    */
+                    let indentSpaces = '';
+
+                    for (let j = foundDex - 1; j >= 0; j--)  {
+                        if (mainHTML.charAt(j) == ' ') {
+                            indentSpaces += ' ';
+                        }
+                        else if (mainHTML.charAt(j) == '\t') {
+                            indentSpaces += '\t';
+                        }
+                        else if (mainHTML.charAt(j) == '\n') {
+                            break;
+                        }
+                    }
+
+                    // INDENTATION //
+                    /* insert the indentation spaces to front of each 'dataStr' line */
+
+                    let lineCharCount = 0;
+                    let dataStr_buff = '';
+                    let space4 = "    ";
+
+                    for (let j = 0; j < dataStr.length; j++) {
+                        if (dataStr.charAt(j) == '\n' || j == dataStr.length - 1) {
+                            dataStr_buff += indentSpaces + space4 + dataStr.slice(j - lineCharCount, j+1);
+                            lineCharCount = 0;
+                        }
+                        else lineCharCount++;
+                    }
+
+                    dataStr = dataStr_buff;
+
+                    // first char of 'foundDex' and the new line character will be removed
+                    mainHTML = (
+                        mainHTML.slice(0, foundDex) +               // begin to exception
+                        '<' + markName + ">\n" +
+                        dataStr + '\n' +                            // insert the 'dataStr'
+                        indentSpaces + "</" + markName + ">\n" +
+                        mainHTML.slice(ctrGo + 1, mainHTML.length)  // exception to end
+                    );
+                }
+                catch (err) {
+                    console.log(err);
+                    return false;
+                }
+
                 return true;
             }
             return false;
         };
 
         // CSS file
-        if (insertFunc('<link rel="stylesheet" href="')) continue;
+        if (insertFunc('<link rel="stylesheet" href="', "css", "style")) continue;
 
         // JavaScript file
-        if (insertFunc('<script src="')) continue;
+        if (insertFunc('<script src="', "js", "script")) continue;
 
         // not found or the end
         break;
@@ -101,3 +154,5 @@ function uniteString(htmlFileDir) {
 
     return mainHTML;
 }
+
+console.log(uniteString("test/abc.html"));
