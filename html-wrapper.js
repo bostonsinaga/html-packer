@@ -1,5 +1,9 @@
-/*                     NODEJS                   */
-/* USE THIS FOR COMBINE CLIENT HTML, JS AND CSS */
+
+/*
+*   HTML WRAPPER BY BOSTON SINAGA
+*   FOR NODEJS
+*   USE THIS FOR COMBINE CLIENT HTML, JS AND CSS
+*/
 
 const fs = require("fs");
 
@@ -10,6 +14,8 @@ const fs = require("fs");
 
 // RETURN STRING
 function getUnifiedString(HTML_FILE_DIR) {
+    console.log("** HTML WRAPPER GET STRING RUNNING..");
+
     let mainHTML = "";
     let folderDir = "";
 
@@ -30,6 +36,7 @@ function getUnifiedString(HTML_FILE_DIR) {
         mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
     }
     catch (err) {
+        console.log("** HTML WRAPPER ERROR!");
         console.log(err);
         return "";
     }
@@ -133,6 +140,7 @@ function getUnifiedString(HTML_FILE_DIR) {
                     );
                 }
                 catch (err) {
+                    console.log("** HTML WRAPPER ERROR!");
                     console.log(err);
                     return false;
                 }
@@ -155,4 +163,24 @@ function getUnifiedString(HTML_FILE_DIR) {
     return mainHTML;
 }
 
-console.log(uniteString("test/abc.html"));
+function writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
+    console.log("** HTML WRAPPER WRITE FILE RUNNING..");
+    
+    if (HTML_FILE_DIR == NEW_FILE_DIR && !IS_OVERWRITE) {
+        console.log(
+            "** HTML WRAPPER OVERWRITE SAFETY!\n" +
+            "**** recommended to write into new file instead\n" +
+            "**** otherwise if you intended to do so\n" +
+            "**** please pass into the function as 'writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE)'"
+        );
+        console.log("** HTML WRAPPER FAILED!");
+    }
+    else {
+        const mainHTML = getUnifiedString(HTML_FILE_DIR);
+        if (mainHTML != "") {
+            fs.writeFileSync(NEW_FILE_DIR, mainHTML);
+            console.log("** HTML WRAPPER COMPLETED!");
+        }
+        else console.log("** HTML WRAPPER FAILED!");
+    }
+}
