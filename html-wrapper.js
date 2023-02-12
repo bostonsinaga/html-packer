@@ -9,7 +9,7 @@ const fs = require("fs");
 
 /*  NOTE:
 *   the 'HTML_FILE_DIR' should be inside
-*   the level directory of this module
+*   the level directory of this module user
 */
 
 // RETURN STRING
@@ -36,7 +36,7 @@ function getUnifiedString(HTML_FILE_DIR) {
         mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
     }
     catch (err) {
-        console.log("** HTML WRAPPER ERROR!");
+        console.log("** HTML WRAPPER GET STRING ERROR!");
         console.log(err);
         return "";
     }
@@ -140,7 +140,7 @@ function getUnifiedString(HTML_FILE_DIR) {
                     );
                 }
                 catch (err) {
-                    console.log("** HTML WRAPPER ERROR!");
+                    console.log("** HTML WRAPPER GET STRING ERROR!");
                     console.log(err);
                     return false;
                 }
@@ -160,6 +160,11 @@ function getUnifiedString(HTML_FILE_DIR) {
         break;
     }
 
+    if (mainHTML != "") {
+        console.log("** HTML WRAPPER GET STRING COMPLETED!");
+    }
+    else console.log("** HTML WRAPPER GET STRING EMPTY!");
+
     return mainHTML;
 }
 
@@ -173,14 +178,16 @@ function writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
             "**** otherwise if you intended to do so\n" +
             "**** please pass into the function as 'writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE)'"
         );
-        console.log("** HTML WRAPPER FAILED!");
+        console.log("** HTML WRAPPER WRITE FAILED!");
     }
     else {
         const mainHTML = getUnifiedString(HTML_FILE_DIR);
         if (mainHTML != "") {
             fs.writeFileSync(NEW_FILE_DIR, mainHTML);
-            console.log("** HTML WRAPPER COMPLETED!");
+            console.log("** HTML WRAPPER WRITE COMPLETED!");
         }
-        else console.log("** HTML WRAPPER FAILED!");
+        else console.log("** HTML WRAPPER WRITE FAILED!");
     }
 }
+
+module.exports = {getUnifiedString, writeUnified};
