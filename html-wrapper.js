@@ -6,6 +6,7 @@
 */
 
 const fs = require("fs");
+const readerTool = require("./tools/reader");
 
 /*  NOTE:
 *   the 'HTML_FILE_DIR' should be inside
@@ -16,30 +17,9 @@ const fs = require("fs");
 function getUnifiedString(HTML_FILE_DIR) {
     console.log("** HTML WRAPPER GET STRING RUNNING..");
 
-    let mainHTML = "";
-    let folderDir = "";
-
-    // cut 'HTML_FILE_DIR' for the folder directory name
-    for (let i = HTML_FILE_DIR.length - 1; i >= 0; i--) {
-        if (HTML_FILE_DIR.charAt(i) == '/' || HTML_FILE_DIR.charAt(i) == '\\') {
-            folderDir = folderDir.split('').reverse().join('');
-            folderDir = HTML_FILE_DIR.slice(0, HTML_FILE_DIR.search(folderDir));
-            break;
-        }
-        else {
-            folderDir += HTML_FILE_DIR.charAt(i);
-        }
-    }
-
-    // read the main html
-    try {
-        mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
-    }
-    catch (err) {
-        console.log("** HTML WRAPPER GET STRING ERROR!");
-        console.log(err);
-        return "";
-    }
+    // using reader tool
+    let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR);
+    let folderDir = readerTool.getFolderDir(HTML_FILE_DIR);
 
     // searhing and inserting (the 'i' is not really in use just formality)
     for (let i = 0; i < mainHTML.length; i++) {
