@@ -15,9 +15,9 @@ const readerTool = require("./tools/reader");
 
 // RETURN STRING
 function getUnifiedString(HTML_FILE_DIR) {
+    const taskMessageStr = "WRAPPER GET STRING";
 
     // using reader tool
-    const taskMessageStr = "WRAPPER GET STRING";
     let [mainHTML, folderDir] = readerTool.getMainHTMLAndFolderDir(HTML_FILE_DIR, taskMessageStr);
     if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return "";
 
@@ -120,7 +120,7 @@ function getUnifiedString(HTML_FILE_DIR) {
                     );
                 }
                 catch (err) {
-                    console.log("** HTML WRAPPER GET STRING ERROR!");
+                    console.log(`** HTML ${taskMessageStr} ERROR!`);
                     console.log(err);
                     return false;
                 }
@@ -141,9 +141,9 @@ function getUnifiedString(HTML_FILE_DIR) {
     }
 
     if (mainHTML != "") {
-        console.log("** HTML WRAPPER GET STRING COMPLETED!");
+        console.log(`** HTML ${taskMessageStr} COMPLETED!`);
     }
-    else console.log("** HTML WRAPPER GET STRING EMPTY!");
+    else console.log(`** HTML ${taskMessageStr} EMPTY!`);
 
     return mainHTML;
 }
