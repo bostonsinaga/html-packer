@@ -21,6 +21,8 @@ function getUnifiedString(HTML_FILE_DIR) {
     let [mainHTML, folderDir] = readerTool.getMainHTMLAndFolderDir(HTML_FILE_DIR, taskMessageStr);
     if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return "";
 
+    // SPECIAL START //
+
     // searhing and inserting (the 'i' is not really in use just formality)
     for (let i = 0; i < mainHTML.length; i++) {
 
@@ -139,6 +141,8 @@ function getUnifiedString(HTML_FILE_DIR) {
         // not found or the end
         break;
     }
+
+    // SPECIAL END //
 
     if (mainHTML != "") {
         console.log(`** HTML ${taskMessageStr} COMPLETED!`);
