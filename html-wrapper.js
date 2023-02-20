@@ -81,7 +81,7 @@ function getUnifiedString(HTML_FILE_DIR) {
                     // NOTE! When above get error the below code won't get executed
 
                     /* WARNING!!
-                    *  this will just replace found line only not so the error
+                    *  This will just replace only a found line. So the error
                     *  still may happen. Example:
                     * 
                     *     <script src="script.js">     --> this line will be deleted
