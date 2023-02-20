@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 exports.getMainHTML = (HTML_FILE_DIR) => {
     let folderDir = "";
 
@@ -12,9 +14,13 @@ exports.getMainHTML = (HTML_FILE_DIR) => {
             folderDir += HTML_FILE_DIR.charAt(i);
         }
     }
+
+    return folderDir;
 }
 
-exports.getFolderDir = (HTML_FILE_DIR) => {
+exports.getFolderDir = (HTML_FILE_DIR, TASK_MESSAGE_STRING) => {
+    console.log(`** HTML ${TASK_MESSAGE_STRING} RUNNING..`);
+    
     let mainHTML = "";
     
     // read the main html
@@ -22,8 +28,14 @@ exports.getFolderDir = (HTML_FILE_DIR) => {
         mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
     }
     catch (err) {
-        console.log("** HTML WRAPPER GET STRING ERROR!");
+        console.log(`** HTML ${TASK_MESSAGE_STRING} ERROR!`);
         console.log(err);
         return "";
     }
+
+    return mainHTML;
 }
+
+exports.getMainHTMLAndFolderDir = (HTML_FILE_DIR, TASK_MESSAGE_STRING) => {
+    return [getMainHTML(HTML_FILE_DIR, TASK_MESSAGE_STRING), getFolderDir(HTML_FILE_DIR)];
+};

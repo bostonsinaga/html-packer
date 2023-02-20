@@ -15,11 +15,10 @@ const readerTool = require("./tools/reader");
 
 // RETURN STRING
 function getUnifiedString(HTML_FILE_DIR) {
-    console.log("** HTML WRAPPER GET STRING RUNNING..");
 
     // using reader tool
-    let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR);
-    let folderDir = readerTool.getFolderDir(HTML_FILE_DIR);
+    let [mainHTML, folderDir] = readerTool.getMainHTMLAndFolderDir(HTML_FILE_DIR, "WRAPPER GET STRING");
+    if (mainHTML == "") return "";
 
     // searhing and inserting (the 'i' is not really in use just formality)
     for (let i = 0; i < mainHTML.length; i++) {
