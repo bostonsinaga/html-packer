@@ -19,18 +19,19 @@ function getMainHTML(HTML_FILE_DIR) {
 }
 
 function getFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
-    console.log(`** HTML ${TASK_MESSAGE_STRING} RUNNING..`);
-    
+
     let mainHTML = "";
+    console.log(`** HTML ${TASK_MESSAGE_STRING} RUNNING..`);
     
     // read the main html
     try {
         mainHTML = fs.readFileSync(HTML_FILE_DIR, "utf-8");
     }
     catch (err) {
-        console.log(`** HTML ${TASK_MESSAGE_STRING} ERROR!`);
+        const errMessageStr = `** HTML ${TASK_MESSAGE_STRING} ERROR!`;
+        console.log(errMessageStr);
         console.log(err);
-        return "";
+        return errMessageStr;
     }
 
     return mainHTML;

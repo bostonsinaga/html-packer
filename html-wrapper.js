@@ -17,8 +17,9 @@ const readerTool = require("./tools/reader");
 function getUnifiedString(HTML_FILE_DIR) {
 
     // using reader tool
-    let [mainHTML, folderDir] = readerTool.getMainHTMLAndFolderDir(HTML_FILE_DIR, "WRAPPER GET STRING");
-    if (mainHTML == "") return "";
+    const taskMessageStr = "WRAPPER GET STRING";
+    let [mainHTML, folderDir] = readerTool.getMainHTMLAndFolderDir(HTML_FILE_DIR, taskMessageStr);
+    if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return "";
 
     // searhing and inserting (the 'i' is not really in use just formality)
     for (let i = 0; i < mainHTML.length; i++) {
