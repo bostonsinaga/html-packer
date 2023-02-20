@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-exports.getMainHTML = (HTML_FILE_DIR) => {
+function getMainHTML(HTML_FILE_DIR) {
     let folderDir = "";
 
     // cut 'HTML_FILE_DIR' for the folder directory name
@@ -18,7 +18,7 @@ exports.getMainHTML = (HTML_FILE_DIR) => {
     return folderDir;
 }
 
-exports.getFolderDir = (HTML_FILE_DIR, TASK_MESSAGE_STRING) => {
+function getFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
     console.log(`** HTML ${TASK_MESSAGE_STRING} RUNNING..`);
     
     let mainHTML = "";
@@ -36,6 +36,8 @@ exports.getFolderDir = (HTML_FILE_DIR, TASK_MESSAGE_STRING) => {
     return mainHTML;
 }
 
-exports.getMainHTMLAndFolderDir = (HTML_FILE_DIR, TASK_MESSAGE_STRING) => {
+function getMainHTMLAndFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
     return [getMainHTML(HTML_FILE_DIR, TASK_MESSAGE_STRING), getFolderDir(HTML_FILE_DIR)];
-};
+}
+
+module.exports = {getMainHTML, getFolderDir, getMainHTMLAndFolderDir};
