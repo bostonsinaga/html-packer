@@ -1,14 +1,15 @@
 /*
-*   HTML SHRINKER BY BOSTON SINAGA
+*   HTML NO COMMENT BY BOSTON SINAGA
 *   FOR NODEJS
-*   USE THIS TO MAKE IT HARDER TO READ CLIENT SO
+*   USE THIS TO CLEAN COMMENTS
+*   (ONLY AVAILABLE FOR JS AND CSS COMMENTS)
 */
 
 const fs = require("fs");
 const readerTool = require("./tools/reader");
 
-function getOneLine(HTML_FILE_DIR) {
-    const taskMessageStr = "SHRINKER GET ONE LINE";
+function clean(HTML_FILE_DIR) {
+    const taskMessageStr = "NO COMMENT CLEAN";
 
     // using reader tool
     let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR, taskMessageStr);
@@ -82,6 +83,6 @@ function getOneLine(HTML_FILE_DIR) {
     return mainHTML;
 }
 
-function writeOneLine(HTML_FILE_DIR) {
+function writeClean(HTML_FILE_DIR) {
 
 }
