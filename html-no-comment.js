@@ -13,7 +13,7 @@ function getCleanedString(HTML_FILE_DIR) {
 
     // using reader tool
     let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR, taskMessageStr);
-    if (mainHTML == "") return "";
+    if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return "";
 
     // SPECIAL START //
 

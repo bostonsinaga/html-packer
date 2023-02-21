@@ -13,6 +13,11 @@ function getMainHTML(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
         const errMessageStr = `** HTML ${TASK_MESSAGE_STRING} ERROR!`;
         console.log(errMessageStr);
         console.log(err);
+
+        /*
+        *   for immediately return empty string in user function
+        *   (prevent forwarding empty string error)
+        */
         return errMessageStr;
     }
 
