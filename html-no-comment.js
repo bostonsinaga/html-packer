@@ -83,6 +83,14 @@ function clean(HTML_FILE_DIR) {
     return mainHTML;
 }
 
-function writeClean(HTML_FILE_DIR) {
-    
+function writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
+    writerTool.newFile(
+        HTML_FILE_DIR,
+        NEW_FILE_DIR,
+        "NO COMMENT",
+        clean,
+        IS_OVERWRITE
+    );
 }
+
+module.exports = {clean, writeClean};
