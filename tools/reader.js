@@ -1,24 +1,6 @@
 const fs = require("fs");
 
-function getMainHTML(HTML_FILE_DIR) {
-    let folderDir = "";
-
-    // cut 'HTML_FILE_DIR' for the folder directory name
-    for (let i = HTML_FILE_DIR.length - 1; i >= 0; i--) {
-        if (HTML_FILE_DIR.charAt(i) == '/' || HTML_FILE_DIR.charAt(i) == '\\') {
-            folderDir = folderDir.split('').reverse().join('');
-            folderDir = HTML_FILE_DIR.slice(0, HTML_FILE_DIR.search(folderDir));
-            break;
-        }
-        else {
-            folderDir += HTML_FILE_DIR.charAt(i);
-        }
-    }
-
-    return folderDir;
-}
-
-function getFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
+function getMainHTML(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
 
     let mainHTML = "";
     console.log(`** HTML ${TASK_MESSAGE_STRING} RUNNING..`);
@@ -35,6 +17,24 @@ function getFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
     }
 
     return mainHTML;
+}
+
+function getFolderDir(HTML_FILE_DIR) {
+    let folderDir = "";
+
+    // cut 'HTML_FILE_DIR' for the folder directory name
+    for (let i = HTML_FILE_DIR.length - 1; i >= 0; i--) {
+        if (HTML_FILE_DIR.charAt(i) == '/' || HTML_FILE_DIR.charAt(i) == '\\') {
+            folderDir = folderDir.split('').reverse().join('');
+            folderDir = HTML_FILE_DIR.slice(0, HTML_FILE_DIR.search(folderDir));
+            break;
+        }
+        else {
+            folderDir += HTML_FILE_DIR.charAt(i);
+        }
+    }
+
+    return folderDir;
 }
 
 function getMainHTMLAndFolderDir(HTML_FILE_DIR, TASK_MESSAGE_STRING) {
