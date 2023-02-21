@@ -5,10 +5,10 @@
 *   (ONLY AVAILABLE FOR JS AND CSS COMMENTS)
 */
 
-const fs = require("fs");
 const readerTool = require("./tools/reader");
+const writerTool = require("./tools/writer");
 
-function clean(HTML_FILE_DIR) {
+function getCleanedString(HTML_FILE_DIR) {
     const taskMessageStr = "NO COMMENT CLEAN";
 
     // using reader tool
@@ -88,9 +88,9 @@ function writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
         HTML_FILE_DIR,
         NEW_FILE_DIR,
         "NO COMMENT",
-        clean,
+        getCleanedString,
         IS_OVERWRITE
     );
 }
 
-module.exports = {clean, writeClean};
+module.exports = {getCleanedString, writeClean};

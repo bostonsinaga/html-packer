@@ -152,7 +152,7 @@ function getUnifiedString(HTML_FILE_DIR) {
     return mainHTML;
 }
 
-function writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
+function writeUnify(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
     writerTool.newFile(
         HTML_FILE_DIR,
         NEW_FILE_DIR,
@@ -162,4 +162,4 @@ function writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
     );
 }
 
-module.exports = {getUnifiedString, writeUnified};
+module.exports = {getUnifiedString, writeUnify};
