@@ -1,12 +1,12 @@
-
 /*
-*   HTML WRAPPER BY BOSTON SINAGA
-*   FOR NODEJS
+*   HTML WRAPPER FOR NODEJS
+*   BY BOSTON SINAGA
 *   USE THIS TO COMBINE CLIENT HTML, JS AND CSS
 */
 
 const fs = require("fs");
 const readerTool = require("./tools/reader");
+const writerTool = require("./tools/writer");
 
 /*  NOTE:
 *   the 'HTML_FILE_DIR' should be inside
@@ -153,25 +153,13 @@ function getUnifiedString(HTML_FILE_DIR) {
 }
 
 function writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
-    console.log("** HTML WRAPPER WRITE FILE RUNNING..");
-    
-    if (HTML_FILE_DIR == NEW_FILE_DIR && !IS_OVERWRITE) {
-        console.log(
-            "** HTML WRAPPER OVERWRITE SAFETY!\n" +
-            "**** recommended to write into new file instead\n" +
-            "**** otherwise if you intended to do so\n" +
-            "**** please pass into the function as 'writeUnified(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE)'"
-        );
-        console.log("** HTML WRAPPER WRITE FAILED!");
-    }
-    else {
-        const mainHTML = getUnifiedString(HTML_FILE_DIR);
-        if (mainHTML != "") {
-            fs.writeFileSync(NEW_FILE_DIR, mainHTML);
-            console.log("** HTML WRAPPER WRITE COMPLETED!");
-        }
-        else console.log("** HTML WRAPPER WRITE FAILED!");
-    }
+    writerTool.newFile(
+        HTML_FILE_DIR,
+        NEW_FILE_DIR,
+        "WRAPPER",
+        getUnifiedString,
+        IS_OVERWRITE
+    );
 }
 
 module.exports = {getUnifiedString, writeUnified};
