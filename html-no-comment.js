@@ -8,7 +8,7 @@
 const readerTool = require("./tools/reader");
 const writerTool = require("./tools/writer");
 
-function getCleanedString(HTML_FILE_DIR) {
+function getCleanString(HTML_FILE_DIR) {
     const taskMessageStr = "NO COMMENT CLEAN";
 
     // using reader tool
@@ -17,11 +17,8 @@ function getCleanedString(HTML_FILE_DIR) {
 
     // SPECIAL START //
 
-    /***********************/
-    /* REMOVE THE COMMENTS */
-    /***********************/
-
-    let commentFlag = 0, startCutDex;
+    let commentFlag = 0,
+        startCutDex;
 
     const sliceRange = (startDex, endDex) => {
         // cut the 'comment'
@@ -88,9 +85,9 @@ function writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
         HTML_FILE_DIR,
         NEW_FILE_DIR,
         "NO COMMENT",
-        getCleanedString,
+        getCleanString,
         IS_OVERWRITE
     );
 }
 
-module.exports = {getCleanedString, writeClean};
+module.exports = {getCleanString, writeClean};

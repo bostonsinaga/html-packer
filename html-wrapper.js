@@ -1,20 +1,15 @@
 /*
 *   HTML WRAPPER FOR NODEJS
 *   BY BOSTON SINAGA
-*   USE THIS TO COMBINE CLIENT HTML, JS AND CSS
+*   USE THIS TO MERGE CLIENT HTML, JS AND CSS
 */
 
 const fs = require("fs");
 const readerTool = require("./tools/reader");
 const writerTool = require("./tools/writer");
 
-/*  NOTE:
-*   the 'HTML_FILE_DIR' should be inside
-*   the level directory of this module user
-*/
-
 // RETURN STRING
-function getUnifiedString(HTML_FILE_DIR) {
+function getUnifyString(HTML_FILE_DIR) {
     const taskMessageStr = "WRAPPER GET STRING";
 
     // using reader tool
@@ -157,9 +152,9 @@ function writeUnify(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
         HTML_FILE_DIR,
         NEW_FILE_DIR,
         "WRAPPER",
-        getUnifiedString,
+        getUnifyString,
         IS_OVERWRITE
     );
 }
 
-module.exports = {getUnifiedString, writeUnify};
+module.exports = {getUnifyString, writeUnify};
