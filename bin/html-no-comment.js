@@ -2,7 +2,10 @@
 *   HTML NO COMMENT FOR NODEJS
 *   BY BOSTON SINAGA
 *   USE THIS TO CLEAN COMMENTS
-*   (ONLY AVAILABLE FOR JS AND CSS COMMENTS)
+*/
+
+/*  WARNING!
+*   Only available for '.js' and '.css' comments!
 */
 
 const readerTool = require("../tools/reader");
