@@ -9,7 +9,7 @@ const readerTool = require("./tools/reader");
 const writerTool = require("./tools/writer");
 
 // RETURN STRING
-function getUnifyString(HTML_FILE_DIR) {
+function getUnifiedString(HTML_FILE_DIR) {
     const taskMessageStr = "WRAPPER GET STRING";
 
     // using reader tool
@@ -152,9 +152,9 @@ function writeUnify(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
         HTML_FILE_DIR,
         NEW_FILE_DIR,
         "WRAPPER",
-        getUnifyString,
+        getUnifiedString,
         IS_OVERWRITE
     );
 }
 
-module.exports = {getUnifyString, writeUnify};
+module.exports = {getUnifiedString, writeUnify};

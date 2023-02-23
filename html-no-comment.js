@@ -8,7 +8,7 @@
 const readerTool = require("./tools/reader");
 const writerTool = require("./tools/writer");
 
-function getCleanString(HTML_FILE_DIR) {
+function getCleanedString(HTML_FILE_DIR) {
     const taskMessageStr = "NO COMMENT CLEAN";
 
     // using reader tool
@@ -85,9 +85,9 @@ function writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
         HTML_FILE_DIR,
         NEW_FILE_DIR,
         "NO COMMENT",
-        getCleanString,
+        getCleanedString,
         IS_OVERWRITE
     );
 }
 
-module.exports = {getCleanString, writeClean};
+module.exports = {getCleanedString, writeClean};
