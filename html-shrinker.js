@@ -13,71 +13,45 @@
 const readerTool = require("./tools/reader");
 const writerTool = require("./tools/writer");
 
-/* PRIVATE FUNCTIONS */
+function getSolidString(TEXT, IS_NOTIFYING) {
+    const taskMessageStr = "SHRINKER SOLID";
 
-/*  NOTE:
-*   recommended to use minimal one white space
-*   after the white space removement
-*   for prevent syntax error (being concatenated)
-*
-*   eg. //////          if no white space: //////
-*       aVar = 1                           aVar = 1bFunc()
-*       bFunc()                            //////
-*       //////
-*/
-
-// set text to only has one white space
-function removeMultiWhiteSpace(text) {
-
-    let isStringIndex = false,
-        whiteSpaceRate = 0;
-
-    // pause removement when iside a string 
-    const detectStringSign = (index) => {
-        if ((text.charAt(index) == '"' ||
-            text.charAt(index) == "'"  ||
-            text.charAt(index) == '`') &&
-            whiteSpaceRate <= 1
-        ) {
-            isStringIndex = !isStringIndex;
-            if (whiteSpaceRate != 0) whiteSpaceRate = 0;
-            return true;
-        }
-        return false;
-    };
-
-    for (let i = 0; i < text.length; i++) {
-        
-        // outside string (removement available)
-        if (!detectStringSign(i) && !isStringIndex) {
-
-            if (text.charAt(i) == ' ') {
-                whiteSpaceRate++;
-            }
-            // multi white space detected
-            else if (whiteSpaceRate > 1) { // char is not a white space
-
-                text = (
-                    text.slice(0, i - whiteSpaceRate + 1) +
-                    text.slice(i)
-                );
-
-                i = i - whiteSpaceRate + 1;
-                whiteSpaceRate = 0;
-                detectStringSign(i);
-            }
-            else { // char is not a white space
-                whiteSpaceRate = 0;
-            }
-        }
+    if (IS_NOTIFYING) {
+        console.log(`** HTML ${taskMessageStr} RUNNING..`);
     }
 
-    return text;
+    // SPECIAL START //
+
+    
+
+    // SPECIAL END //
+
+    if (TEXT != "") {
+        console.log(`** HTML ${taskMessageStr} COMPLETED!`);
+    }
+    else console.log(`** HTML ${taskMessageStr} EMPTY!`);
+
+    return TEXT;
 }
 
-/* PUBLIC FUNCTIONS */
+function writeSolid(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
 
-// contains random spaces (replacement for new line)
+    let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR, taskMessageStr);
+    if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return;
+    
+    writerTool.newFile(
+        mainHTML,
+        NEW_FILE_DIR,
+        "WHITE SPACE SHRINKER",
+        getSolidString,
+        IS_OVERWRITE
+    );
+}
+
+/*
+*   -contains random spaces (replacement for new line)
+*   -using white space shrinker (solidify text)
+*/
 function getOneLineString(HTML_FILE_DIR) {
     const taskMessageStr = "SHRINKER ONE LINE";
 
@@ -87,8 +61,9 @@ function getOneLineString(HTML_FILE_DIR) {
 
     // SPECIAL START //
 
-    mainHTML = removeMultiWhiteSpace(mainHTML);
+    mainHTML = getSolidString(mainHTML, true);
 
+    // new line removement
     for (let i = 0; i < mainHTML.length; i++) {
         if (mainHTML.charAt(i) == '\n') {
 
@@ -108,6 +83,7 @@ function getOneLineString(HTML_FILE_DIR) {
     return mainHTML;
 }
 
+// using white space shrinker
 function writeOneLine(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
     writerTool.newFile(
         HTML_FILE_DIR,
@@ -118,4 +94,9 @@ function writeOneLine(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
     );
 }
 
-module.exports = {getOneLineString, writeOneLine};
+module.exports = {
+    getSolidString,
+    writeSolid,
+    getOneLineString,
+    writeOneLine
+};
