@@ -10,8 +10,8 @@
 *   use '\n' sign for new line instead
 */
 
-const readerTool = require("./tools/reader");
-const writerTool = require("./tools/writer");
+const readerTool = require("../tools/reader");
+const writerTool = require("../tools/writer");
 
 function getSolidString(TEXT, IS_NOTIFYING) {
     const taskMessageStr = "SHRINKER SOLID";

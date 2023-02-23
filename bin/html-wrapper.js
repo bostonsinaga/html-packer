@@ -5,8 +5,8 @@
 */
 
 const fs = require("fs");
-const readerTool = require("./tools/reader");
-const writerTool = require("./tools/writer");
+const readerTool = require("../tools/reader");
+const writerTool = require("../tools/writer");
 
 // RETURN STRING
 function getUnifiedString(HTML_FILE_DIR) {

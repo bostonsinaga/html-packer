@@ -5,8 +5,8 @@
 *   (ONLY AVAILABLE FOR JS AND CSS COMMENTS)
 */
 
-const readerTool = require("./tools/reader");
-const writerTool = require("./tools/writer");
+const readerTool = require("../tools/reader");
+const writerTool = require("../tools/writer");
 
 function getCleanedString(HTML_FILE_DIR) {
     const taskMessageStr = "NO COMMENT CLEAN";
