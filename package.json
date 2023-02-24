@@ -3,20 +3,17 @@
   "version": "1.0.0",
   "description": "Pack HTML, JS, CSS into one single HTML with addition for clean comments and harder readability shrinker",
   "main": "html-packer.js",
-  "bin": {
-    "html-packer": "bin/html-no-comment.js"
-  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bostonsinaga/html-wrapper.git"
+    "url": "git+https://github.com/bostonsinaga/html-packer.git"
   },
   "author": "Boston Sinaga",
-  "license": "ISC",
+  "license": "BSD 2-Clause License",
   "bugs": {
-    "url": "https://github.com/bostonsinaga/html-wrapper/issues"
+    "url": "https://github.com/bostonsinaga/html-packer/issues"
   },
-  "homepage": "https://github.com/bostonsinaga/html-wrapper#readme"
+  "homepage": "https://github.com/bostonsinaga/html-packer#readme"
 }
