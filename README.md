@@ -1,4 +1,5 @@
 # html-wrapper
 *Usually used on NodeJS*
 
-Use 'html-wrapper.js' to combine/unite HTML, JavaScript and CSS (either return a string or write to file)
+**Pack HTML, JS, CSS into one single HTML with addition**
+**for clean comments and harder readability shrinker**
