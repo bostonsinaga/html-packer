@@ -12,7 +12,7 @@ const HTMLPacker = require("./html-packer/html-packer");
 
 HTMLPacker.HTMLNoComment.getCleanedString(HTML_FILE_DIR);
 
-HTMLPacker.HTMLNoComment.writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE)
+HTMLPacker.HTMLNoComment.writeClean(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE);
 
 
 HTMLPacker.HTMLShrinker.getSolidString(TEXT, IS_NOTIFYING);
