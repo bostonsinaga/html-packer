@@ -2,17 +2,15 @@
 *   HTML SHRINKER FOR NODEJS
 *   BY BOSTON SINAGA
 *   USE THIS TO MAKE IT HARDER TO READ SOURCE CODE
-*   (SET SOURCE CODE INTO ONE LINE FORM)
-*/
-
-/*  WARNING!
-*   This will affect/remove string new line (enter),
-*   use '\n' sign for new line instead
 */
 
 const readerTool = require("../tools/reader");
 const writerTool = require("../tools/writer");
 
+/*
+*   WHITE SPACE SHRINKER
+*   (multi white spaces will be trimmed into 1 white space)
+*/
 function getSolidString(TEXT, IS_NOTIFYING) {
     const taskMessageStr = "SHRINKER SOLID";
 
@@ -22,7 +20,31 @@ function getSolidString(TEXT, IS_NOTIFYING) {
 
     // SPECIAL START //
 
-    
+    let whiteSpaceCount = 0;
+
+    for (let i = 0; i < TEXT.length; i++) {
+
+        // white space detection
+        if (TEXT.charAt(i) == ' ') {
+            whiteSpaceCount++;
+        }
+        // trimming multi white spaces into 1 space
+        else if (whiteSpaceCount > 1) {
+
+            // set the index at second multi spaces
+            const fillBackCtr = i - whiteSpaceCount + 1;
+
+            // cut the white spaces
+            TEXT = TEXT.slice(0, fillBackCtr) + TEXT.slice(i);
+
+            // go to proper current char index
+            i = fillBackCtr;
+            
+            // stop the loop (reload)
+            whiteSpaceCount = 0;
+        }
+        else whiteSpaceCount = 0;
+    }
 
     // SPECIAL END //
 
@@ -36,21 +58,25 @@ function getSolidString(TEXT, IS_NOTIFYING) {
 
 function writeSolid(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
 
+    const taskMessageStr = "SHRINKER SOLID";
     let mainHTML = readerTool.getMainHTML(HTML_FILE_DIR, taskMessageStr);
     if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return;
     
     writerTool.newFile(
         mainHTML,
         NEW_FILE_DIR,
-        "WHITE SPACE SHRINKER",
+        taskMessageStr,
         getSolidString,
         IS_OVERWRITE
     );
 }
 
 /*
-*   -contains random spaces (replacement for new line)
-*   -using white space shrinker (solidify text)
+*   TEXT SHRINKER
+*
+*   WARNING!
+*   This will affect/remove string new line (enter),
+*   use '\n' sign for new line instead
 */
 function getOneLineString(HTML_FILE_DIR) {
     const taskMessageStr = "SHRINKER ONE LINE";
@@ -60,8 +86,6 @@ function getOneLineString(HTML_FILE_DIR) {
     if (mainHTML == `** HTML ${taskMessageStr} ERROR!`) return "";
 
     // SPECIAL START //
-
-    mainHTML = getSolidString(mainHTML, true);
 
     // new line removement
     for (let i = 0; i < mainHTML.length; i++) {
@@ -73,6 +97,9 @@ function getOneLineString(HTML_FILE_DIR) {
         }
     }
 
+    // using white space shrinker (solidify text)
+    mainHTML = getSolidString(mainHTML, true);
+
     // SPECIAL END //
 
     if (mainHTML != "") {
@@ -83,7 +110,7 @@ function getOneLineString(HTML_FILE_DIR) {
     return mainHTML;
 }
 
-// using white space shrinker
+// using white space shrinker (solidify text)
 function writeOneLine(HTML_FILE_DIR, NEW_FILE_DIR, IS_OVERWRITE) {
     writerTool.newFile(
         HTML_FILE_DIR,
