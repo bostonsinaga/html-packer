@@ -12,7 +12,7 @@ exports.newFile = (
     if (HTML_FILE_DIR == NEW_FILE_DIR && !IS_OVERWRITE) {
         console.log(
             `** HTML ${TASK_TITLE_STRING} OVERWRITE SAFETY!\n` +
-            "**** recommended to write into new file instead\n" +
+            "**** Recommended to write into new file instead\n" +
             "**** otherwise if you intended to do so\n" +
             "**** please pass into the function as 'writeFunction(.., IS_OVERWRITE)'"
         );
